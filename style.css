@@ -1,0 +1,721 @@
+/* ==========================================================================
+   DESIGN SYSTEM & CONSTANTS
+   ========================================================================== */
+:root {
+  --bg-color-main: #050505;
+  --bg-color-app: #080808;
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --color-neon: #20c997;
+  --color-neon-rgb: 32, 201, 151;
+  --color-orange: #ff9f43;
+  --color-orange-rgb: 255, 159, 67;
+  --font-family: 'Inter', sans-serif;
+  --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   RESET & BASE STYLES
+   ========================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+  background-color: #000000;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: #0a0a0a;
+  color: var(--text-primary);
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+/* Container de Enquadramento Mobile (Estilo Simulador no Desktop) */
+.app-container {
+  width: 100%;
+  max-width: 480px;
+  background-color: var(--bg-color-main);
+  min-height: 100vh;
+  position: relative;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid rgba(255, 255, 255, 0.03);
+  border-right: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* ==========================================================================
+   SEÇÃO HERO
+   ========================================================================== */
+.hero-section {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 28px;
+  position: relative;
+  background: 
+    radial-gradient(circle at 50% 35%, rgba(var(--color-neon-rgb), 0.12) 0%, rgba(5, 5, 5, 0) 65%),
+    var(--bg-color-main);
+  z-index: 2;
+}
+
+.brand-badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--color-neon);
+  background: rgba(var(--color-neon-rgb), 0.08);
+  border: 1px solid rgba(var(--color-neon-rgb), 0.15);
+  padding: 6px 16px;
+  border-radius: 30px;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  box-shadow: 0 0 15px rgba(var(--color-neon-rgb), 0.1);
+}
+
+.hero-title {
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -1.5px;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #ffffff 30%, #b0b0b0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-neon {
+  color: var(--color-neon);
+  -webkit-text-fill-color: initial;
+  text-shadow: 0 0 20px rgba(var(--color-neon-rgb), 0.4);
+}
+
+.hero-subtitle {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 320px;
+  margin-bottom: 48px;
+  font-weight: 400;
+}
+
+/* Indicador de Scroll */
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.7;
+}
+
+.mouse {
+  width: 20px;
+  height: 32px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  position: relative;
+}
+
+.wheel {
+  width: 4px;
+  height: 8px;
+  background: var(--color-neon);
+  border-radius: 2px;
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: scroll-wheel 1.6s infinite ease-in-out;
+}
+
+.arrow {
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid rgba(255, 255, 255, 0.4);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+  transform: rotate(45deg);
+  animation: bounce-arrow 1.6s infinite ease-in-out;
+}
+
+@keyframes scroll-wheel {
+  0% { top: 6px; opacity: 1; }
+  100% { top: 18px; opacity: 0; }
+}
+
+@keyframes bounce-arrow {
+  0%, 100% { transform: rotate(45deg) translate(0, 0); }
+  50% { transform: rotate(45deg) translate(4px, 4px); }
+}
+
+/* ==========================================================================
+   SEÇÃO DO MAPA E CAMINHO (SVG)
+   ========================================================================== */
+.map-section {
+  position: relative;
+  width: 100%;
+  height: 4800px;
+  background-color: var(--bg-color-main);
+  background-image: 
+    radial-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 0),
+    radial-gradient(rgba(255, 255, 255, 0.01) 1.5px, transparent 0);
+  background-size: 24px 24px, 48px 48px;
+  background-position: 0 0, 12px 12px;
+  overflow: hidden;
+}
+
+.map-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Estilização da Estrada Realista (Asfalto + Faixa Amarela) */
+.road-border-bg {
+  stroke: rgba(255, 255, 255, 0.04);
+  stroke-width: 26px;
+  fill: none;
+  stroke-linecap: round;
+}
+
+.road-asphalt-bg {
+  stroke: #121214;
+  stroke-width: 24px;
+  fill: none;
+  stroke-linecap: round;
+}
+
+.road-line-bg {
+  stroke: rgba(255, 255, 255, 0.07);
+  stroke-width: 2px;
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 10 14;
+}
+
+/* Estrada Ativa (Revelada pelo scroll) */
+.road-border-active {
+  stroke: rgba(255, 255, 255, 0.75);
+  stroke-width: 26px;
+  fill: none;
+  stroke-linecap: round;
+}
+
+.road-asphalt-active {
+  stroke: #222225;
+  stroke-width: 24px;
+  fill: none;
+  stroke-linecap: round;
+}
+
+.road-line-active {
+  stroke: #ffc107;
+  stroke-width: 2.2px;
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 10 14;
+  filter: drop-shadow(0 0 6px rgba(255, 193, 7, 0.9));
+}
+
+#mask-path {
+  transition: stroke-dashoffset 0.15s cubic-bezier(0.1, 0.8, 0.2, 1);
+}
+
+/* Estilização das Imagens 3D do Cenário */
+.city-3d-image {
+  mix-blend-mode: screen; /* Torna o fundo preto dos renders 3D 100% transparente */
+  pointer-events: none; /* Impede que as imagens bloqueiem cliques nos pins */
+  filter: brightness(0.95) contrast(1.05); /* Ajuste sutil de brilho e contraste */
+  transition: var(--transition-smooth);
+}
+
+
+/* ==========================================================================
+   ESTILO DOS PINS INFORMATIVOS (HTML) - MUITO BEM VISÍVEIS
+   ========================================================================== */
+.pin {
+  position: absolute;
+  z-index: 50; /* Garante que fique acima de todos os prédios 3D */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(-50%, -90%) scale(0.95);
+  opacity: 0.45; /* Mais visível mesmo inativo */
+  filter: saturate(0.4) blur(0.2px);
+  pointer-events: auto; /* Permite clicar mesmo antes de passar por ele, se desejado */
+  transition: 
+    transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.6s ease,
+    filter 0.6s ease;
+}
+
+/* Estado Ativo (Desbloqueado pelo Scroll) */
+.pin.active {
+  opacity: 1;
+  filter: saturate(1) blur(0);
+  transform: translate(-50%, -100%) scale(1.1); /* Ligeiramente maior */
+  z-index: 60;
+}
+
+.pin.active:hover {
+  transform: translate(-50%, -105%) scale(1.2); /* Amplia no hover */
+  cursor: pointer;
+}
+
+/* Ponto de Contato na Estrada (Dot) - Efeito de Farol / Beacon */
+.pin::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  width: 16px;
+  height: 16px;
+  background-color: #ffffff; /* Núcleo branco para brilhar mais */
+  border: 3px solid var(--color-neon);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 15px 5px var(--color-neon),
+    0 0 30px 10px rgba(var(--color-neon-rgb), 0.4);
+  z-index: 3;
+  transition: var(--transition-smooth);
+}
+
+.pin-special::after {
+  border-color: var(--color-orange);
+  box-shadow: 
+    0 0 15px 5px var(--color-orange),
+    0 0 30px 10px rgba(var(--color-orange-rgb), 0.4);
+}
+
+/* Haste de Conexão Vertical (Stem) */
+.pin-stem {
+  width: 3px;
+  height: 38px;
+  background: linear-gradient(to top, var(--color-neon), rgba(var(--color-neon-rgb), 0.3));
+  z-index: 1;
+  box-shadow: 0 0 8px rgba(var(--color-neon-rgb), 0.5);
+}
+
+.pin-special .pin-stem {
+  background: linear-gradient(to top, var(--color-orange), rgba(var(--color-orange-rgb), 0.3));
+  box-shadow: 0 0 8px rgba(var(--color-orange-rgb), 0.5);
+}
+
+/* Card Flutuante (Glassmorphism de Alto Contraste) */
+.pin-card {
+  background: rgba(10, 10, 12, 0.92); /* Fundo mais escuro e opaco para destacar do cenário */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid var(--color-neon); /* Borda neon sólida e mais grossa */
+  border-radius: 16px;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 
+    0 0 25px rgba(var(--color-neon-rgb), 0.45),
+    0 12px 36px rgba(0, 0, 0, 0.8);
+  z-index: 2;
+  transition: var(--transition-smooth);
+}
+
+.pin-special .pin-card {
+  border-color: var(--color-orange);
+  box-shadow: 
+    0 0 25px rgba(var(--color-orange-rgb), 0.45),
+    0 12px 36px rgba(0, 0, 0, 0.8);
+}
+
+.pin.active:hover .pin-card {
+  background: #000000;
+  border-color: #ffffff;
+  box-shadow: 
+    0 0 35px rgba(var(--color-neon-rgb), 0.7),
+    0 12px 40px rgba(0, 0, 0, 0.9);
+}
+
+.pin-special.active:hover .pin-card {
+  background: #000000;
+  border-color: #ffffff;
+  box-shadow: 
+    0 0 35px rgba(var(--color-orange-rgb), 0.7),
+    0 12px 40px rgba(0, 0, 0, 0.9);
+}
+
+/* Ícones e Textos dos Cards (Pontos de Marcador Minimalistas) */
+.pin-icon-dot-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+}
+
+.pin-icon-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-neon);
+  box-shadow: 0 0 8px var(--color-neon);
+  transition: var(--transition-smooth);
+}
+
+.pin-special .pin-icon-dot {
+  background-color: var(--color-orange);
+  box-shadow: 0 0 8px var(--color-orange);
+}
+
+.pin.active:hover .pin-icon-dot,
+.pin-special.active:hover .pin-icon-dot {
+  background-color: #ffffff;
+  box-shadow: 0 0 10px #ffffff;
+}
+
+.pin-text {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+/* Efeito de Pulso no Chão (Background) */
+.pin-pulse {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  width: 44px;
+  height: 18px;
+  background: rgba(var(--color-neon-rgb), 0.2);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.pin-special .pin-pulse {
+  background: rgba(var(--color-orange-rgb), 0.2);
+}
+
+.pin.active .pin-pulse {
+  opacity: 1;
+  animation: pulse-ring 2.4s infinite cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: translate(-50%, 50%) scale(0.3);
+    opacity: 0.8;
+  }
+  80%, 100% {
+    transform: translate(-50%, 50%) scale(1.8);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   SEÇÃO DE ENCERRAMENTO (FOOTER)
+   ========================================================================== */
+.end-section {
+  padding: 80px 28px 48px 28px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(to top, rgba(var(--color-neon-rgb), 0.05) 0%, rgba(5, 5, 5, 0) 100%);
+  position: relative;
+  z-index: 2;
+}
+
+.end-logo {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: var(--color-neon);
+  margin-bottom: 20px;
+}
+
+.end-title {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 16px;
+}
+
+.end-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 320px;
+  margin-bottom: 40px;
+}
+
+.btn-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-family: var(--font-family);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.btn-top:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.footer-copy {
+  margin-top: 64px;
+  font-size: 11px;
+  color: #555555;
+  letter-spacing: 0.2px;
+}
+
+/* ==========================================================================
+   ESTILIZAÇÃO DOS MODAIS
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -42%) scale(0.95);
+  width: 90%;
+  max-width: 380px;
+  background: #0f0f0f;
+  border: 1px solid rgba(var(--color-neon-rgb), 0.15);
+  box-shadow: 
+    0 24px 48px rgba(0, 0, 0, 0.8),
+    0 0 30px rgba(var(--color-neon-rgb), 0.03);
+  border-radius: 24px;
+  padding: 32px 24px 28px 24px;
+  z-index: 101;
+  opacity: 0;
+  pointer-events: none;
+  transition: 
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: all;
+}
+
+/* Detalhes Especiais do Modal do Colégio São José */
+.modal.modal-special-box {
+  border-color: rgba(var(--color-orange-rgb), 0.2);
+  box-shadow: 
+    0 24px 48px rgba(0, 0, 0, 0.8),
+    0 0 30px rgba(var(--color-orange-rgb), 0.05);
+}
+
+/* Botão de Fechar Modal (X) */
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  line-height: 1;
+  transition: var(--transition-smooth);
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+  transform: rotate(90deg);
+}
+
+/* Ícone de Cabeçalho do Modal */
+.modal-header-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.modal-header-icon.green {
+  background: rgba(var(--color-neon-rgb), 0.08);
+  color: var(--color-neon);
+  border: 1px solid rgba(var(--color-neon-rgb), 0.15);
+}
+
+.modal-header-icon.orange {
+  background: rgba(var(--color-orange-rgb), 0.08);
+  color: var(--color-orange);
+  border: 1px solid rgba(var(--color-orange-rgb), 0.15);
+}
+
+/* Textos do Modal */
+.modal-title {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+}
+
+.modal-subtitle {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.modal.modal-special-box .modal-subtitle {
+  color: var(--color-orange);
+}
+
+.modal:not(.modal-special-box) .modal-subtitle {
+  color: var(--color-neon);
+}
+
+.modal-desc {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+/* Animação Interna dos Elementos do Modal ao abrir */
+.modal-header-icon, .modal-title, .modal-subtitle, .modal-desc, .modal-body-content {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.modal.active .modal-header-icon {
+  animation: modal-fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards;
+}
+
+.modal.active .modal-title {
+  animation: modal-fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+}
+
+.modal.active .modal-subtitle {
+  animation: modal-fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+}
+
+.modal.active .modal-desc {
+  animation: modal-fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+}
+
+.modal.active .modal-body-content {
+  animation: modal-fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
+}
+
+@keyframes modal-fade-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   AÇÃO DO CUPOM (EASTER EGG)
+   ========================================================================== */
+.modal-body-content {
+  margin-top: 24px;
+}
+
+.btn-coupon {
+  width: 100%;
+  padding: 14px;
+  font-family: var(--font-family);
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  background: rgba(var(--color-orange-rgb), 0.08);
+  border: 2px dashed var(--color-orange);
+  color: var(--color-orange);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-coupon:hover {
+  background: rgba(var(--color-orange-rgb), 0.14);
+  transform: translateY(-2px);
+}
+
+.btn-coupon:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* Estado de Resgatado */
+.btn-coupon.coupon-claimed {
+  background: var(--color-neon);
+  border: 2px solid var(--color-neon);
+  color: #030303;
+  box-shadow: 0 8px 24px rgba(var(--color-neon-rgb), 0.3);
+  transform: scale(1);
+  animation: coupon-success-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes coupon-success-pop {
+  0% { transform: scale(0.95); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
